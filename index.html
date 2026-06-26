@@ -1,161 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Instagram Grid Widget</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f0eb; min-height: 100vh; display: flex; }
-    .sidebar { width: 190px; background: #fff; padding: 2rem 1.25rem; border-right: 1px solid #e8e0d8; display: flex; flex-direction: column; gap: 0.4rem; flex-shrink: 0; }
-    .logo { font-size: 1.05rem; font-weight: 700; color: #1a1a1a; margin-bottom: 1.2rem; line-height: 1.3; }
-    .logo em { color: #c0392b; font-style: italic; font-weight: 900; }
-    .nav { padding: 0.45rem 0.75rem; border-radius: 8px; font-size: 13.5px; color: #777; cursor: pointer; display: flex; align-items: center; gap: 8px; }
-    .nav.active { background: #f5f0eb; color: #1a1a1a; font-weight: 500; }
-    .main { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
-    h1 { font-size: 1.55rem; font-weight: 700; margin-bottom: 1.5rem; color: #1a1a1a; }
-    .card { background: #fff; border-radius: 14px; padding: 1.4rem; margin-bottom: 1rem; border: 1px solid #ebe3da; }
-    .card-title { font-size: 14.5px; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; color: #1a1a1a; }
-    input[type="text"], input[type="url"] { width: 100%; padding: 9px 13px; border: 1px solid #e0d8d0; border-radius: 8px; font-size: 13.5px; background: #faf7f4; outline: none; color: #1a1a1a; }
-    input:focus { border-color: #c0392b; background: #fff; }
-    .hint { font-size: 11.5px; color: #aaa; margin-top: 5px; }
-    .steps { font-size: 13px; color: #666; line-height: 2; }
-    .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 0.9rem; }
-    .toggle { width: 42px; height: 23px; background: #ddd; border-radius: 12px; position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; border: none; }
-    .toggle.on { background: #c0392b; }
-    .toggle::after { content: ''; position: absolute; width: 19px; height: 19px; background: #fff; border-radius: 50%; top: 2px; left: 2px; transition: left 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.18); }
-    .toggle.on::after { left: 21px; }
-    .toggle-label { font-size: 13px; color: #555; }
-    .btn { background: #222; color: #fff; border: none; border-radius: 10px; padding: 13px 22px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center; }
-    .btn:hover { background: #000; }
-    .btn:disabled { background: #aaa; cursor: not-allowed; }
-    .status { font-size: 13px; padding: 10px 14px; border-radius: 8px; margin-top: 0.9rem; display: none; }
-    .status.loading { background: #fef9e7; color: #9a7d0a; border: 1px solid #f9e79f; }
-    .status.success { background: #eafaf1; color: #1a7a40; border: 1px solid #a9dfbf; }
-    .status.error { background: #fdedec; color: #c0392b; border: 1px solid #f5b7b1; }
-    .preview-empty { min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #bbb; font-size: 13px; text-align: center; }
-    .item-list { margin-top: 1rem; border-top: 1px solid #f0e8e0; padding-top: 0.75rem; }
-    .item-row { display: flex; align-items: center; gap: 9px; padding: 6px 0; border-bottom: 1px solid #f5f0eb; font-size: 12.5px; color: #555; }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: #c0392b; flex-shrink: 0; }
-    .has-img { margin-left: auto; font-size: 11px; color: #27ae60; font-weight: 500; }
-    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-    @media (max-width: 750px) { .two { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 1.25rem; } }
-
-    /* --- Instagram-style widget frame --- */
-    .ig-frame { border: 1px solid #dbdbdb; border-radius: 8px; overflow: hidden; background: #fff; }
-    .ig-profile { display: flex; align-items: flex-start; gap: 14px; padding: 16px; border-bottom: 1px solid #efefef; }
-    .ig-avatar { width: 58px; height: 58px; border-radius: 50%; flex-shrink: 0; object-fit: cover; background: linear-gradient(135deg,#f0d6c0,#d6a880); display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 18px; }
-    .ig-username { font-size: 14px; font-weight: 700; color: #1a1a1a; }
-    .ig-displayname { font-size: 13px; font-weight: 500; color: #1a1a1a; margin-top: 2px; }
-    .ig-bio { font-size: 12px; color: #444; line-height: 1.5; margin-top: 4px; }
-    .ig-link { font-size: 12px; color: #00376b; font-weight: 500; margin-top: 3px; display: inline-block; }
-
-    .ig-tags { display: flex; gap: 20px; padding: 12px 16px 14px; overflow-x: auto; border-bottom: 1px solid #efefef; }
-    .ig-tag { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; cursor: pointer; }
-    .ig-tag-dot { width: 38px; height: 38px; border-radius: 50%; border: 2px solid transparent; }
-    .ig-tag-dot.active { border-color: #c0392b; }
-    .ig-tag-label { font-size: 8.5px; letter-spacing: 0.4px; color: #555; font-weight: 600; text-transform: uppercase; }
-
-    .ig-toolbar { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-bottom: 1px solid #efefef; }
-    .ig-tool-icon { font-size: 16px; color: #555; cursor: pointer; background: none; border: none; }
-    .ig-plan-grid { flex: 1; background: #f5f0eb; border: none; border-radius: 7px; padding: 7px 11px; font-size: 12px; color: #555; text-align: left; cursor: pointer; }
-
-    .ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: #efefef; }
-    .ig-cell { position: relative; aspect-ratio: 1/1; background: #ede4d8; overflow: hidden; cursor: pointer; }
-    .ig-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .ig-cell .ig-clabel { font-size: 9.5px; color: #777; text-align: center; padding: 8px; line-height: 1.3; display: flex; align-items: center; justify-content: center; height: 100%; }
-    .ig-cell .ig-badge { position: absolute; top: 5px; right: 5px; color: #fff; font-size: 13px; text-shadow: 0 0 3px rgba(0,0,0,0.7); }
-    .ig-cell .ig-dbadge { position: absolute; bottom: 5px; right: 5px; background: rgba(0,0,0,0.55); color: #fff; font-size: 8.5px; padding: 2px 5px; border-radius: 4px; }
-
-    #embedOnlyArea { padding: 0; max-width: 700px; margin: 0 auto; }
-    body:has(#embedOnlyArea[style*="block"]) { background: transparent; }
-  </style>
-</head>
-<body>
-<nav class="sidebar">
-  <div class="logo">instagram<br>grid<br><em>preview</em></div>
-  <div class="nav">Welcome</div>
-  <div class="nav active">Setup</div>
-  <div class="nav">Help</div>
-  <div class="nav">Account</div>
-</nav>
-<main class="main" id="mainArea">
-  <div id="setupSection">
-  <h1>Widget Setup</h1>
-  <div class="two">
-    <div>
-      <div class="card">
-        <div class="card-title">🔑 Notion Integration Token</div>
-        <input type="text" id="token" placeholder="ntn_..." autocomplete="off" />
-        <div class="hint">Copy the token from your integration's page</div>
-      </div>
-      <div class="card">
-        <div class="card-title">🗂 Connect integration with database</div>
-        <div class="steps">
-          <span>1 &nbsp;Open your database in Notion. Click ··· in top-right</span><br>
-          <span>2 &nbsp;Select "Connect to" → Choose your integration</span>
-        </div>
-        <div class="toggle-row">
-          <button class="toggle on" id="tog"></button>
-          <span class="toggle-label" id="tog-label">Yes, I've completed the steps above</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title">🔗 Notion Page or Database URL</div>
-        <input type="url" id="pageurl" placeholder="https://www.notion.so/..." autocomplete="off" />
-        <div class="hint">Paste the URL of your Notion page or database</div>
-      </div>
-      <div class="card">
-        <div class="card-title">👤 Profile Display (optional)</div>
-        <input type="text" id="igusername" placeholder="@yourusername" autocomplete="off" style="margin-bottom:8px;" />
-        <input type="text" id="igdisplayname" placeholder="Your Display Name" autocomplete="off" style="margin-bottom:8px;" />
-        <input type="text" id="igbio" placeholder="Short bio (optional)" autocomplete="off" style="margin-bottom:8px;" />
-        <input type="url" id="iglink" placeholder="https://yourlink.com (optional)" autocomplete="off" style="margin-bottom:8px;" />
-        <input type="url" id="igavatar" placeholder="Avatar image URL (optional)" autocomplete="off" />
-        <div class="hint">This is just for the visual header on your grid widget</div>
-      </div>
-      <button class="btn" id="genbtn" onclick="generate()">
-        Create Gallery Widget →
-      </button>
-      <div class="status" id="status"></div>
-      <div class="card" id="embedCard" style="display:none; margin-top:1rem;">
-        <div class="card-title">📋 Embed this in Notion</div>
-        <div class="hint" style="margin-bottom:8px;">Your settings are saved in this browser. Copy the link below and paste it into a Notion "Embed" block — it will show only the grid, no setup form.</div>
-        <input type="text" id="embedUrl" readonly style="font-size:11.5px;" onclick="this.select()" />
-        <button class="btn" style="margin-top:8px; background:#444;" onclick="copyEmbedUrl()">Copy embed link</button>
-      </div>
-    </div>
-    <div>
-      <div class="card">
-        <div class="card-title">🖼 Widget Preview</div>
-        <div id="preview">
-          <div class="preview-empty">
-            <p>Your widget preview will appear here<br>Fill out the form to get started</p>
-          </div>
-        </div>
-        <div id="item-list"></div>
-      </div>
-    </div>
-  </div>
-  </div>
-  <div id="embedOnlyArea" style="display:none;">
-    <div id="embedPreview"></div>
-  </div>
-</main>
 <script>
   const STORAGE_KEY = 'igGridWidgetSettings';
 
   function saveSettings(settings) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(settings)); } catch (e) {}
-  }
-  function loadSettings() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { return {}; }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
   }
 
-  function buildEmbedUrl() {
-    const url = new URL(window.location.href);
-    url.search = '';
+  function loadSettings() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  }
+
+  function encodeSettings(settings) {
+    return btoa(unescape(encodeURIComponent(JSON.stringify(settings))));
+  }
+
+  function decodeSettings(encoded) {
+    return JSON.parse(decodeURIComponent(escape(atob(encoded))));
+  }
+
+  function buildEmbedUrl(settings) {
+    const url = new URL(window.location.origin + window.location.pathname);
     url.searchParams.set('embed', '1');
+    url.hash = encodeSettings(settings);
     return url.toString();
   }
 
@@ -163,15 +28,15 @@
     const input = document.getElementById('embedUrl');
     input.select();
     document.execCommand('copy');
-    const btn = event.target;
-    const original = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => { btn.textContent = original; }, 1500);
+    alert('Embed link copied!');
   }
 
   document.getElementById('tog').addEventListener('click', function() {
     this.classList.toggle('on');
-    document.getElementById('tog-label').textContent = this.classList.contains('on') ? "Yes, I've completed the steps above" : 'Mark as complete';
+    document.getElementById('tog-label').textContent =
+      this.classList.contains('on')
+        ? "Yes, I've completed the steps above"
+        : 'Mark as complete';
   });
 
   function showStatus(msg, type) {
@@ -179,18 +44,15 @@
     el.style.display = 'block';
     el.className = 'status ' + type;
     el.textContent = msg;
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   async function generate() {
     const token = document.getElementById('token').value.trim();
     const pageUrl = document.getElementById('pageurl').value.trim();
-    const btn = document.getElementById('genbtn');
 
     if (!token) return showStatus('Please enter your Notion integration token.', 'error');
     if (!pageUrl) return showStatus('Please enter your Notion page or database URL.', 'error');
 
-    btn.disabled = true;
     showStatus('Connecting to your Notion database…', 'loading');
 
     try {
@@ -200,124 +62,71 @@
         body: JSON.stringify({ token, pageUrl })
       });
 
-      let data;
-      try { data = await res.json(); }
-      catch(e) {
-        btn.disabled = false;
-        return showStatus('Server error — could not read response. Check Vercel function logs.', 'error');
-      }
+      const data = await res.json();
 
       if (!res.ok || !data.success) {
-        btn.disabled = false;
-        return showStatus('Error: ' + (data.error || 'Could not connect. Check token and database access.'), 'error');
+        return showStatus('Error: ' + (data.error || 'Could not connect.'), 'error');
       }
 
-      showStatus('✓ Connected! ' + data.items.length + ' items loaded.', 'success');
-      renderGrid(data.items, 'preview', 'item-list');
-      btn.disabled = false;
-
-      saveSettings({
-        token, pageUrl,
+      const settings = {
+        token,
+        pageUrl,
         igusername: document.getElementById('igusername').value.trim(),
         igdisplayname: document.getElementById('igdisplayname').value.trim(),
         igbio: document.getElementById('igbio').value.trim(),
         iglink: document.getElementById('iglink').value.trim(),
-        igavatar: document.getElementById('igavatar').value.trim(),
-      });
+        igavatar: document.getElementById('igavatar').value.trim()
+      };
+
+      saveSettings(settings);
+
+      showStatus('✓ Connected! ' + data.items.length + ' items loaded.', 'success');
+      renderGrid(data.items, 'preview', 'item-list');
 
       document.getElementById('embedCard').style.display = 'block';
-      document.getElementById('embedUrl').value = buildEmbedUrl();
+      document.getElementById('embedUrl').value = buildEmbedUrl(settings);
 
     } catch (e) {
-      btn.disabled = false;
       showStatus('Connection failed: ' + e.message, 'error');
     }
   }
 
   function escapeHtml(str) {
     return (str || '').replace(/[&<>"']/g, function(c) {
-      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
   }
 
   function renderGrid(items, previewId, itemListId) {
-    const dotColors = ['#c9a87c','#7a4a3a','#1a1a1a','#9b8b7a','#5a4a3a','#b89b7a'];
-    const cellColors = ['#f0e0d6','#d6e8f0','#d6f0e0','#f0d6e8','#e8f0d6','#e8d6f0','#f0f0d6','#d6d6f0','#f0d6d6'];
+    let html = '<div class="ig-frame"><div class="ig-grid">';
 
-    const username = document.getElementById('igusername').value.trim() || '@yourusername';
-    const displayname = document.getElementById('igdisplayname').value.trim() || 'Your Display Name';
-    const bio = document.getElementById('igbio').value.trim();
-    const link = document.getElementById('iglink').value.trim();
-    const avatar = document.getElementById('igavatar').value.trim();
-
-    const tagSet = [];
-    items.forEach(function(item) {
-      const tag = item.category || item.tag || item.pillar;
-      if (tag && tagSet.indexOf(tag) === -1) tagSet.push(tag);
-    });
-
-    let html = '<div class="ig-frame">';
-
-    html += '<div class="ig-profile">';
-    html += avatar
-      ? '<img class="ig-avatar" src="' + avatar + '" alt="avatar">'
-      : '<div class="ig-avatar">' + escapeHtml(username).replace('@','').charAt(0).toUpperCase() + '</div>';
-    html += '<div>';
-    html += '<div class="ig-username">' + escapeHtml(username) + '</div>';
-    html += '<div class="ig-displayname">' + escapeHtml(displayname) + '</div>';
-    if (bio) html += '<div class="ig-bio">' + escapeHtml(bio) + '</div>';
-    if (link) html += '<a class="ig-link" href="' + link + '" target="_blank">' + escapeHtml(link) + '</a>';
-    html += '</div></div>';
-
-    if (tagSet.length > 0) {
-      html += '<div class="ig-tags">';
-      tagSet.forEach(function(tag, i) {
-        html += '<div class="ig-tag">';
-        html += '<div class="ig-tag-dot" style="background:' + dotColors[i % dotColors.length] + '"></div>';
-        html += '<div class="ig-tag-label">' + escapeHtml(tag) + '</div>';
-        html += '</div>';
-      });
-      html += '</div>';
-    }
-
-    html += '<div class="ig-toolbar">';
-    html += '<button class="ig-tool-icon" onclick="generate()" title="Refresh">⟳</button>';
-    html += '<button class="ig-plan-grid">Plan grid ⊞</button>';
-    html += '<button class="ig-tool-icon" title="Grid view">▦</button>';
-    html += '<button class="ig-tool-icon" title="More">⋯</button>';
-    html += '</div>';
-
-    html += '<div class="ig-grid">';
-    const count = Math.max(items.length, 9);
-    for (let i = 0; i < Math.min(count, 60); i++) {
+    for (let i = 0; i < 9; i++) {
       const item = items[i];
+
       if (item && item.image) {
-        html += '<div class="ig-cell">';
-        html += '<img src="' + item.image + '" alt="' + escapeHtml(item.title) + '" onerror="this.style.display=\'none\'">';
-        if (item.isVideo) html += '<span class="ig-badge">▶</span>';
-        if (item.isCarousel) html += '<span class="ig-badge">⧉</span>';
-        if (item.date) html += '<span class="ig-dbadge">' + item.date.substring(5,10) + '</span>';
-        html += '</div>';
+        html += `
+          <div class="ig-cell">
+            <img src="${item.image}" alt="${escapeHtml(item.title)}">
+          </div>
+        `;
       } else if (item) {
-        html += '<div class="ig-cell" style="background:' + cellColors[i%9] + '">';
-        html += '<div class="ig-clabel">' + escapeHtml((item.title||'Untitled').substring(0,24)) + '</div>';
-        if (item.date) html += '<span class="ig-dbadge">' + item.date.substring(5,10) + '</span>';
-        html += '</div>';
+        html += `
+          <div class="ig-cell">
+            <div class="ig-clabel">${escapeHtml(item.title || 'Untitled')}</div>
+          </div>
+        `;
       } else {
-        html += '<div class="ig-cell"></div>';
+        html += `<div class="ig-cell"></div>`;
       }
     }
-    html += '</div></div>';
 
+    html += '</div></div>';
     document.getElementById(previewId).innerHTML = html;
 
     if (itemListId) {
-      let listHtml = '<div class="item-list">';
-      items.slice(0,9).forEach(function(item) {
-        listHtml += '<div class="item-row"><div class="dot"></div><span>' + escapeHtml(item.title||'Untitled') + '</span>' + (item.image ? '<span class="has-img">✓ image</span>' : '') + '</div>';
-      });
-      listHtml += '</div>';
-      document.getElementById(itemListId).innerHTML = listHtml;
+      document.getElementById(itemListId).innerHTML = items.slice(0, 9).map(item =>
+        `<div class="item-row"><div class="dot"></div><span>${escapeHtml(item.title)}</span></div>`
+      ).join('');
     }
   }
 
@@ -327,18 +136,23 @@
     document.querySelector('.sidebar').style.display = 'none';
     document.querySelector('.main').style.padding = '0';
 
-    const settings = loadSettings();
-    if (!settings.token || !settings.pageUrl) {
-      document.getElementById('embedPreview').innerHTML =
-        '<div class="preview-empty" style="padding:2rem;">Widget not set up yet on this browser.<br>Open this site without ?embed=1 first, connect your database, then come back.</div>';
-      return;
+    let settings = {};
+
+    try {
+      if (window.location.hash) {
+        settings = decodeSettings(window.location.hash.substring(1));
+      } else {
+        settings = loadSettings();
+      }
+    } catch (e) {
+      settings = {};
     }
 
-    document.getElementById('igusername').value = settings.igusername || '';
-    document.getElementById('igdisplayname').value = settings.igdisplayname || '';
-    document.getElementById('igbio').value = settings.igbio || '';
-    document.getElementById('iglink').value = settings.iglink || '';
-    document.getElementById('igavatar').value = settings.igavatar || '';
+    if (!settings.token || !settings.pageUrl) {
+      document.getElementById('embedPreview').innerHTML =
+        '<div class="preview-empty" style="padding:2rem;">Widget not set up yet. Please generate the embed link first.</div>';
+      return;
+    }
 
     try {
       const res = await fetch('/api/notion', {
@@ -346,13 +160,17 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: settings.token, pageUrl: settings.pageUrl })
       });
+
       const data = await res.json();
+
       if (!res.ok || !data.success) {
         document.getElementById('embedPreview').innerHTML =
           '<div class="preview-empty" style="padding:2rem;">Could not load: ' + escapeHtml(data.error || 'unknown error') + '</div>';
         return;
       }
+
       renderGrid(data.items, 'embedPreview', null);
+
     } catch (e) {
       document.getElementById('embedPreview').innerHTML =
         '<div class="preview-empty" style="padding:2rem;">Connection failed: ' + escapeHtml(e.message) + '</div>';
@@ -360,7 +178,15 @@
   }
 
   (function init() {
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('embed') === '1') {
+      loadEmbedView();
+      return;
+    }
+
     const settings = loadSettings();
+
     if (settings.token) document.getElementById('token').value = settings.token;
     if (settings.pageUrl) document.getElementById('pageurl').value = settings.pageUrl;
     if (settings.igusername) document.getElementById('igusername').value = settings.igusername;
@@ -368,16 +194,5 @@
     if (settings.igbio) document.getElementById('igbio').value = settings.igbio;
     if (settings.iglink) document.getElementById('iglink').value = settings.iglink;
     if (settings.igavatar) document.getElementById('igavatar').value = settings.igavatar;
-    if (settings.token && settings.pageUrl) {
-      document.getElementById('embedCard').style.display = 'block';
-      document.getElementById('embedUrl').value = buildEmbedUrl();
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('embed') === '1') {
-      loadEmbedView();
-    }
   })();
 </script>
-</body>
-</html>
