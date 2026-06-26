@@ -2,11 +2,17 @@
   const STORAGE_KEY = 'igGridWidgetSettings';
 
   function saveSettings(settings) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    } catch (e) {}
   }
 
   function loadSettings() {
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
   }
 
   function encodeSettings(settings) {
@@ -31,28 +37,46 @@
     alert('Embed link copied!');
   }
 
-  document.getElementById('tog').addEventListener('click', function() {
-    this.classList.toggle('on');
-    document.getElementById('tog-label').textContent =
-      this.classList.contains('on')
-        ? "Yes, I've completed the steps above"
-        : 'Mark as complete';
-  });
+  const toggleBtn = document.getElementById('tog');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function() {
+      this.classList.toggle('on');
+      document.getElementById('tog-label').textContent =
+        this.classList.contains('on')
+          ? "Yes, I've completed the steps above"
+          : 'Mark as complete';
+    });
+  }
 
   function showStatus(msg, type) {
     const el = document.getElementById('status');
+    if (!el) return;
     el.style.display = 'block';
     el.className = 'status ' + type;
     el.textContent = msg;
   }
 
+  function escapeHtml(str) {
+    return String(str || '').replace(/[&<>"']/g, function(c) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      }[c];
+    });
+  }
+
   async function generate() {
     const token = document.getElementById('token').value.trim();
     const pageUrl = document.getElementById('pageurl').value.trim();
+    const btn = document.getElementById('genbtn');
 
     if (!token) return showStatus('Please enter your Notion integration token.', 'error');
     if (!pageUrl) return showStatus('Please enter your Notion page or database URL.', 'error');
 
+    if (btn) btn.disabled = true;
     showStatus('Connecting to your Notion database…', 'loading');
 
     try {
@@ -65,6 +89,7 @@
       const data = await res.json();
 
       if (!res.ok || !data.success) {
+        if (btn) btn.disabled = false;
         return showStatus('Error: ' + (data.error || 'Could not connect.'), 'error');
       }
 
@@ -81,60 +106,97 @@
       saveSettings(settings);
 
       showStatus('✓ Connected! ' + data.items.length + ' items loaded.', 'success');
-      renderGrid(data.items, 'preview', 'item-list');
+      renderGrid(data.items, 'preview', 'item-list', settings);
 
       document.getElementById('embedCard').style.display = 'block';
       document.getElementById('embedUrl').value = buildEmbedUrl(settings);
 
+      if (btn) btn.disabled = false;
+
     } catch (e) {
+      if (btn) btn.disabled = false;
       showStatus('Connection failed: ' + e.message, 'error');
     }
   }
 
-  function escapeHtml(str) {
-    return (str || '').replace(/[&<>"']/g, function(c) {
-      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
-    });
-  }
+  function renderGrid(items, previewId, itemListId, settings = {}) {
+    const safeItems = Array.isArray(items) ? items : [];
 
-  function renderGrid(items, previewId, itemListId) {
-    let html = '<div class="ig-frame"><div class="ig-grid">';
+    const username = settings.igusername || document.getElementById('igusername')?.value.trim() || '@yourusername';
+    const displayname = settings.igdisplayname || document.getElementById('igdisplayname')?.value.trim() || 'Your Display Name';
+    const bio = settings.igbio || document.getElementById('igbio')?.value.trim() || '';
+    const link = settings.iglink || document.getElementById('iglink')?.value.trim() || '';
+    const avatar = settings.igavatar || document.getElementById('igavatar')?.value.trim() || '';
+
+    let html = '<div class="ig-frame">';
+
+    html += '<div class="ig-profile">';
+    html += avatar
+      ? '<img class="ig-avatar" src="' + escapeHtml(avatar) + '" alt="avatar">'
+      : '<div class="ig-avatar">' + escapeHtml(username.replace('@', '').charAt(0).toUpperCase() || 'I') + '</div>';
+
+    html += '<div>';
+    html += '<div class="ig-username">' + escapeHtml(username) + '</div>';
+    html += '<div class="ig-displayname">' + escapeHtml(displayname) + '</div>';
+    if (bio) html += '<div class="ig-bio">' + escapeHtml(bio) + '</div>';
+    if (link) html += '<a class="ig-link" href="' + escapeHtml(link) + '" target="_blank">' + escapeHtml(link) + '</a>';
+    html += '</div></div>';
+
+    html += '<div class="ig-toolbar">';
+    html += '<button class="ig-tool-icon" onclick="generate()" title="Refresh">⟳</button>';
+    html += '<button class="ig-plan-grid">Plan grid ⊞</button>';
+    html += '<button class="ig-tool-icon">▦</button>';
+    html += '<button class="ig-tool-icon">⋯</button>';
+    html += '</div>';
+
+    html += '<div class="ig-grid">';
 
     for (let i = 0; i < 9; i++) {
-      const item = items[i];
+      const item = safeItems[i];
 
       if (item && item.image) {
-        html += `
-          <div class="ig-cell">
-            <img src="${item.image}" alt="${escapeHtml(item.title)}">
-          </div>
-        `;
+        html += '<div class="ig-cell">';
+        html += '<img src="' + escapeHtml(item.image) + '" alt="' + escapeHtml(item.title || '') + '">';
+        if (item.date) html += '<span class="ig-dbadge">' + escapeHtml(item.date.substring(5, 10)) + '</span>';
+        html += '</div>';
       } else if (item) {
-        html += `
-          <div class="ig-cell">
-            <div class="ig-clabel">${escapeHtml(item.title || 'Untitled')}</div>
-          </div>
-        `;
+        html += '<div class="ig-cell">';
+        html += '<div class="ig-clabel">' + escapeHtml(item.title || 'Untitled') + '</div>';
+        if (item.date) html += '<span class="ig-dbadge">' + escapeHtml(item.date.substring(5, 10)) + '</span>';
+        html += '</div>';
       } else {
-        html += `<div class="ig-cell"></div>`;
+        html += '<div class="ig-cell"></div>';
       }
     }
 
     html += '</div></div>';
-    document.getElementById(previewId).innerHTML = html;
+
+    const previewEl = document.getElementById(previewId);
+    if (previewEl) previewEl.innerHTML = html;
 
     if (itemListId) {
-      document.getElementById(itemListId).innerHTML = items.slice(0, 9).map(item =>
-        `<div class="item-row"><div class="dot"></div><span>${escapeHtml(item.title)}</span></div>`
-      ).join('');
+      const listEl = document.getElementById(itemListId);
+      if (listEl) {
+        listEl.innerHTML = safeItems.slice(0, 9).map(function(item) {
+          return '<div class="item-row"><div class="dot"></div><span>' +
+            escapeHtml(item.title || 'Untitled') +
+            '</span>' +
+            (item.image ? '<span class="has-img">✓ image</span>' : '') +
+            '</div>';
+        }).join('');
+      }
     }
   }
 
   async function loadEmbedView() {
     document.getElementById('setupSection').style.display = 'none';
     document.getElementById('embedOnlyArea').style.display = 'block';
-    document.querySelector('.sidebar').style.display = 'none';
-    document.querySelector('.main').style.padding = '0';
+
+    const sidebar = document.querySelector('.sidebar');
+    const main = document.querySelector('.main');
+
+    if (sidebar) sidebar.style.display = 'none';
+    if (main) main.style.padding = '0';
 
     let settings = {};
 
@@ -165,15 +227,19 @@
 
       if (!res.ok || !data.success) {
         document.getElementById('embedPreview').innerHTML =
-          '<div class="preview-empty" style="padding:2rem;">Could not load: ' + escapeHtml(data.error || 'unknown error') + '</div>';
+          '<div class="preview-empty" style="padding:2rem;">Could not load: ' +
+          escapeHtml(data.error || 'unknown error') +
+          '</div>';
         return;
       }
 
-      renderGrid(data.items, 'embedPreview', null);
+      renderGrid(data.items, 'embedPreview', null, settings);
 
     } catch (e) {
       document.getElementById('embedPreview').innerHTML =
-        '<div class="preview-empty" style="padding:2rem;">Connection failed: ' + escapeHtml(e.message) + '</div>';
+        '<div class="preview-empty" style="padding:2rem;">Connection failed: ' +
+        escapeHtml(e.message) +
+        '</div>';
     }
   }
 
@@ -194,5 +260,10 @@
     if (settings.igbio) document.getElementById('igbio').value = settings.igbio;
     if (settings.iglink) document.getElementById('iglink').value = settings.iglink;
     if (settings.igavatar) document.getElementById('igavatar').value = settings.igavatar;
+
+    if (settings.token && settings.pageUrl) {
+      document.getElementById('embedCard').style.display = 'block';
+      document.getElementById('embedUrl').value = buildEmbedUrl(settings);
+    }
   })();
 </script>
