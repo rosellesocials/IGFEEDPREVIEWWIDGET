@@ -79,6 +79,27 @@ function mapPage(page) {
   return { title, image, date, category, isVideo, isCarousel };
 }
 
+async function resolveDataSourceId(databaseId, token) {
+  // Notion's 2025-09-03+ API requires querying a "data source" rather than
+  // the database directly. Retrieve the database first to get its data
+  // source id, then query that.
+  const dbRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Notion-Version": "2025-09-03",
+    },
+  });
+  const dbData = await dbRes.json();
+  if (!dbRes.ok) {
+    return { error: dbData?.message || "Could not retrieve database." };
+  }
+  const dataSourceId = dbData?.data_sources?.[0]?.id;
+  if (!dataSourceId) {
+    return { error: "This database has no accessible data sources for this integration." };
+  }
+  return { dataSourceId };
+}
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ success: false, error: "Method not allowed" });
@@ -100,22 +121,39 @@ module.exports = async function handler(req, res) {
     }
     const databaseId = formatDashedId(rawId);
 
-    const notionRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ page_size: 60 }),
-    });
+    // Try the new data-source-based flow first (required as of Notion API 2025-09-03).
+    let notionRes, data;
+    const resolved = await resolveDataSourceId(databaseId, token);
 
-    const data = await notionRes.json();
+    if (resolved.dataSourceId) {
+      notionRes = await fetch(`https://api.notion.com/v1/data_sources/${resolved.dataSourceId}/query`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Notion-Version": "2025-09-03",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 60 }),
+      });
+      data = await notionRes.json();
+    } else {
+      // Fall back to the legacy database query endpoint (older single-source databases).
+      notionRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page_size: 60 }),
+      });
+      data = await notionRes.json();
+    }
 
     if (!notionRes.ok) {
       res.status(notionRes.status).json({
         success: false,
-        error: data?.message || "Notion API rejected the request. Check your token and that the integration is connected to this database.",
+        error: data?.message || resolved.error || "Notion API rejected the request. Check your token and that the integration is connected to this database.",
       });
       return;
     }
