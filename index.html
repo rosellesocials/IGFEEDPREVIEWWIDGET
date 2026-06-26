@@ -1,3 +1,5 @@
+bash
+cat > /mnt/user-data/outputs/index.html << 'ENDOFFILE'
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -67,11 +69,7 @@
       gap: 4px;
       z-index: 10;
     }
-    .sidebar-logo {
-      width: 36px; height: 36px;
-      margin-bottom: 10px;
-      flex-shrink: 0;
-    }
+    .sidebar-logo { width: 36px; height: 36px; margin-bottom: 10px; flex-shrink: 0; }
     .sidebar-logo svg { width: 100%; height: 100%; }
     .nav-btn {
       width: 44px; height: 44px;
@@ -85,75 +83,43 @@
     .nav-btn.active { background: var(--surface2); color: var(--text); }
     .nav-btn svg { width: 20px; height: 20px; }
     .sidebar-spacer { flex: 1; }
-    .sidebar-bottom {
-      display: flex; flex-direction: column; align-items: center; gap: 4px;
-    }
+    .sidebar-bottom { display: flex; flex-direction: column; align-items: center; gap: 4px; }
 
     /* ══ PANEL ══ */
     .panel-area {
-      width: var(--panel-w);
-      min-width: var(--panel-w);
-      background: var(--surface);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      width: var(--panel-w); min-width: var(--panel-w);
+      background: var(--surface); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow: hidden;
     }
     .panel-header {
-      padding: 18px 16px 12px;
-      border-bottom: 1px solid var(--border);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      flex-shrink: 0;
+      padding: 18px 16px 12px; border-bottom: 1px solid var(--border);
+      font-size: 15px; font-weight: 700; color: var(--text); flex-shrink: 0;
     }
     .panel-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: flex; flex-direction: column; gap: 14px;
     }
     .panel-section { display: none; flex-direction: column; gap: 14px; }
     .panel-section.active { display: flex; }
 
     /* ── Form ── */
     .field { display: flex; flex-direction: column; gap: 5px; }
-    .field label {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.5px; color: var(--text2);
-    }
+    .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text2); }
     .field input, .field select, .field textarea {
-      padding: 8px 10px;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--rad-sm);
-      font-size: 13px;
-      color: var(--text);
-      outline: none;
-      transition: border-color var(--ease);
-      width: 100%;
+      padding: 8px 10px; background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--rad-sm); font-size: 13px; color: var(--text);
+      outline: none; transition: border-color var(--ease); width: 100%;
     }
-    .field input:focus, .field select:focus, .field textarea:focus {
-      border-color: var(--accent);
-    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
     .field textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
     .field .hint { font-size: 11px; color: var(--text3); }
 
     .prefix-wrap { position: relative; }
-    .prefix-wrap .prefix {
-      position: absolute; left: 10px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--text3); font-size: 13px; pointer-events: none;
-    }
+    .prefix-wrap .prefix { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 13px; pointer-events: none; }
     .prefix-wrap input { padding-left: 22px; }
 
     .avatar-row { display: flex; align-items: center; gap: 10px; }
-    .avatar-row img {
-      width: 44px; height: 44px; border-radius: 50%;
-      object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;
-    }
+    .avatar-row img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0; }
     .avatar-row input { flex: 1; }
 
     /* Buttons */
@@ -166,17 +132,11 @@
     .btn-primary { background: var(--accent); color: #fff; width: 100%; }
     .btn-primary:hover { opacity: 0.88; }
     .btn-primary:disabled { background: var(--text3); cursor: not-allowed; }
-    .btn-ghost {
-      background: var(--surface2); color: var(--text);
-      border: 1px solid var(--border); width: 100%;
-    }
+    .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); width: 100%; }
     .btn-ghost:hover { background: var(--border); }
 
     /* Error/status */
-    .status-box {
-      padding: 10px 12px; border-radius: var(--rad-sm);
-      font-size: 12px; line-height: 1.5; display: none;
-    }
+    .status-box { padding: 10px 12px; border-radius: var(--rad-sm); font-size: 12px; line-height: 1.5; display: none; }
     .status-box.error   { background:#fdecea; border:1px solid #f5c6cb; color:#721c24; }
     .status-box.success { background:#eafaf1; border:1px solid #a9dfbf; color:#1a7a40; }
     .status-box.loading { background:#fef9e7; border:1px solid #f9e79f; color:#856404; }
@@ -185,258 +145,102 @@
     [data-theme="dark"] .status-box.loading { background:#1c1700; border-color:#713f12; color:#fde68a; }
 
     /* Embed card */
-    .embed-card {
-      background: var(--surface2); border-radius: var(--rad);
-      padding: 12px; display: none; flex-direction: column; gap: 8px;
-    }
+    .embed-card { background: var(--surface2); border-radius: var(--rad); padding: 12px; display: none; flex-direction: column; gap: 8px; }
     .embed-card .embed-label { font-size: 11px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
-    .embed-card input {
-      font-size: 11px; padding: 6px 8px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--rad-sm); color: var(--text); outline: none; width: 100%;
-    }
+    .embed-card input { font-size: 11px; padding: 6px 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--rad-sm); color: var(--text); outline: none; width: 100%; }
 
     /* Highlights in panel */
     .hl-list { display: flex; flex-direction: column; gap: 8px; }
-    .hl-item {
-      display: flex; align-items: center; gap: 8px;
-      background: var(--bg); border: 1px solid var(--border);
-      border-radius: var(--rad); padding: 8px 10px;
-      transition: border-color var(--ease);
-    }
+    .hl-item { display: flex; align-items: center; gap: 8px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--rad); padding: 8px 10px; transition: border-color var(--ease); }
     .hl-item.drag-over { border-color: var(--accent); }
     .hl-drag { color: var(--text3); cursor: grab; flex-shrink: 0; }
     .hl-drag:active { cursor: grabbing; }
-    .hl-swatch {
-      width: 26px; height: 26px; border-radius: 50%;
-      overflow: hidden; flex-shrink: 0; border: 2px solid var(--border);
-    }
-    .hl-swatch input {
-      width: 100%; height: 100%; border: none; padding: 0;
-      cursor: pointer; transform: scale(1.5);
-    }
+    .hl-swatch { width: 26px; height: 26px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--border); }
+    .hl-swatch input { width: 100%; height: 100%; border: none; padding: 0; cursor: pointer; transform: scale(1.5); }
     .hl-fields { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-    .hl-fields input {
-      padding: 4px 7px; font-size: 11.5px;
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--rad-sm); color: var(--text); outline: none; width: 100%;
-    }
+    .hl-fields input { padding: 4px 7px; font-size: 11.5px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--rad-sm); color: var(--text); outline: none; width: 100%; }
     .hl-fields input:focus { border-color: var(--accent); }
     .hl-del { color: var(--text3); width: 26px; height: 26px; border-radius: var(--rad-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .hl-del:hover { background: rgba(237,73,86,0.1); color: var(--danger); }
 
     /* ══ PREVIEW ══ */
-    .preview-panel {
-      flex: 1; overflow-y: auto; background: var(--bg); min-width: 0;
-    }
+    .preview-panel { flex: 1; overflow-y: auto; background: var(--bg); min-width: 0; }
 
     /* ── IG Profile Header ── */
     .ig-wrap { max-width: 935px; margin: 0 auto; padding: 30px 16px 0; }
-
-    .ig-header-row {
-      display: flex; align-items: flex-start; gap: 28px; margin-bottom: 20px;
-    }
-
-    .ig-avatar-outer {
-      position: relative; flex-shrink: 0;
-      width: 150px; height: 150px;
-    }
-    .ig-avatar-ring {
-      position: absolute; inset: -3px; border-radius: 50%;
-      background: var(--ig-grad); z-index: 0;
-    }
-    .ig-avatar-img {
-      position: relative; width: 100%; height: 100%;
-      border-radius: 50%; object-fit: cover;
-      border: 4px solid var(--bg); z-index: 1;
-    }
-    .ig-avatar-fallback {
-      position: relative; width: 100%; height: 100%;
-      border-radius: 50%; background: var(--surface2);
-      border: 4px solid var(--bg); z-index: 1;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 48px; font-weight: 700; color: var(--text2);
-    }
-
+    .ig-header-row { display: flex; align-items: flex-start; gap: 28px; margin-bottom: 20px; }
+    .ig-avatar-outer { position: relative; flex-shrink: 0; width: 150px; height: 150px; }
+    .ig-avatar-ring { position: absolute; inset: -3px; border-radius: 50%; background: var(--ig-grad); z-index: 0; }
+    .ig-avatar-img { position: relative; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid var(--bg); z-index: 1; }
+    .ig-avatar-fallback { position: relative; width: 100%; height: 100%; border-radius: 50%; background: var(--surface2); border: 4px solid var(--bg); z-index: 1; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 700; color: var(--text2); }
     .ig-info { flex: 1; min-width: 0; }
-    .ig-username-row {
-      display: flex; align-items: center; gap: 10px;
-      flex-wrap: wrap; margin-bottom: 16px;
-    }
-    .ig-username {
-      font-size: 20px; font-weight: 300;
-      letter-spacing: -0.3px; color: var(--text);
-    }
-    .ig-action-btn {
-      padding: 6px 14px;
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: var(--rad-sm); font-size: 13.5px; font-weight: 600;
-      color: var(--text); cursor: pointer; transition: background var(--ease);
-    }
+    .ig-username-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+    .ig-username { font-size: 20px; font-weight: 300; letter-spacing: -0.3px; color: var(--text); }
+    .ig-action-btn { padding: 6px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--rad-sm); font-size: 13.5px; font-weight: 600; color: var(--text); cursor: pointer; transition: background var(--ease); }
     .ig-action-btn:hover { background: var(--border); }
-    .ig-more-btn {
-      width: 32px; height: 32px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--text); transition: background var(--ease);
-    }
+    .ig-more-btn { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text); transition: background var(--ease); }
     .ig-more-btn:hover { background: var(--surface2); }
-
     .ig-stats { display: flex; gap: 36px; margin-bottom: 14px; }
     .ig-stat { display: flex; align-items: baseline; gap: 4px; font-size: 15px; }
     .ig-stat strong { font-weight: 700; }
-
     .ig-bio-block { display: flex; flex-direction: column; gap: 3px; }
     .ig-displayname { font-size: 14px; font-weight: 700; }
     .ig-bio { font-size: 14px; white-space: pre-line; line-height: 1.5; }
     .ig-website { font-size: 14px; font-weight: 600; color: var(--accent); }
     .ig-website:hover { text-decoration: underline; }
-
-    /* mobile bio hidden on desktop */
     .ig-bio-mobile { display: none; padding: 0 4px 16px; }
 
     /* ── Highlights row ── */
-    .ig-highlights {
-      display: flex; gap: 16px; overflow-x: auto;
-      padding: 14px 0 18px;
-      scrollbar-width: none; -ms-overflow-style: none;
-    }
+    .ig-highlights { display: flex; gap: 16px; overflow-x: auto; padding: 14px 0 18px; scrollbar-width: none; -ms-overflow-style: none; }
     .ig-highlights::-webkit-scrollbar { display: none; }
-    .ig-hl {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 5px; flex-shrink: 0; cursor: pointer;
-    }
-    .ig-hl-ring {
-      width: 64px; height: 64px; border-radius: 50%;
-      background: var(--ig-grad); padding: 2.5px;
-      transition: transform var(--ease);
-    }
+    .ig-hl { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; cursor: pointer; }
+    .ig-hl-ring { width: 64px; height: 64px; border-radius: 50%; background: var(--ig-grad); padding: 2.5px; transition: transform var(--ease); }
     .ig-hl:hover .ig-hl-ring { transform: scale(1.05); }
-    .ig-hl-inner {
-      width: 100%; height: 100%; border-radius: 50%;
-      background: var(--surface2);
-      border: 2.5px solid var(--bg);
-      overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 22px;
-    }
+    .ig-hl-inner { width: 100%; height: 100%; border-radius: 50%; background: var(--surface2); border: 2.5px solid var(--bg); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .ig-hl-inner img { width: 100%; height: 100%; object-fit: cover; }
-    .ig-hl-name {
-      font-size: 11.5px; max-width: 64px;
-      text-align: center; overflow: hidden;
-      text-overflow: ellipsis; white-space: nowrap;
-      color: var(--text);
-    }
+    .ig-hl-name { font-size: 11.5px; max-width: 64px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
     .ig-hl-add .ig-hl-ring { background: none; border: 1.5px dashed var(--border); padding: 0; }
     .ig-hl-add .ig-hl-inner { background: var(--surface2); border: none; color: var(--text2); font-size: 26px; }
 
     /* ── Feed nav ── */
-    .ig-feed-nav {
-      display: flex; border-top: 1px solid var(--border);
-    }
-    .ig-nav-btn {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: 13px 0; color: var(--text3);
-      border-top: 1.5px solid transparent;
-      transition: color var(--ease), border-color var(--ease);
-    }
+    .ig-feed-nav { display: flex; border-top: 1px solid var(--border); }
+    .ig-nav-btn { flex: 1; display: flex; align-items: center; justify-content: center; padding: 13px 0; color: var(--text3); border-top: 1.5px solid transparent; transition: color var(--ease), border-color var(--ease); }
     .ig-nav-btn:hover { color: var(--text); }
     .ig-nav-btn.active { color: var(--text); border-top-color: var(--text); }
     .ig-nav-btn svg { width: 22px; height: 22px; }
 
     /* ── Feed grid ── */
-    .ig-feed {
-      max-width: 935px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 3px; padding: 3px 0 80px;
-    }
+    .ig-feed { max-width: 935px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; padding: 3px 0 80px; }
 
     /* ── Feed item ── */
-    .feed-item {
-      position: relative; aspect-ratio: 4/5;
-      overflow: hidden; cursor: pointer;
-      background: var(--surface2);
-    }
-    .feed-item img {
-      width: 100%; height: 100%; object-fit: cover;
-      display: block; transition: transform 0.28s ease;
-    }
+    .feed-item { position: relative; aspect-ratio: 4/5; overflow: hidden; cursor: pointer; background: var(--surface2); }
+    .feed-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.28s ease; }
     .feed-item:hover img { transform: scale(1.04); }
-    .feed-overlay {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0.32);
-      display: flex; align-items: center; justify-content: center;
-      gap: 22px; opacity: 0;
-      transition: opacity 0.2s ease;
-    }
+    .feed-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.32); display: flex; align-items: center; justify-content: center; gap: 22px; opacity: 0; transition: opacity 0.2s ease; }
     .feed-item:hover .feed-overlay { opacity: 1; }
-    .feed-stat {
-      display: flex; align-items: center; gap: 5px;
-      color: #fff; font-size: 14px; font-weight: 700;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.4);
-    }
-    .feed-type-badge {
-      position: absolute; top: 7px; right: 7px;
-      color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
-    }
-    .feed-date-badge {
-      position: absolute; bottom: 6px; right: 6px;
-      background: rgba(0,0,0,0.52); color: #fff;
-      font-size: 9px; padding: 2px 5px; border-radius: 3px;
-    }
-    .feed-no-image {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: var(--text3);
-      text-align: center; padding: 12px; line-height: 1.4;
-    }
-
-    /* Drag states */
+    .feed-stat { display: flex; align-items: center; gap: 5px; color: #fff; font-size: 14px; font-weight: 700; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+    .feed-type-badge { position: absolute; top: 7px; right: 7px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5)); }
+    .feed-date-badge { position: absolute; bottom: 6px; right: 6px; background: rgba(0,0,0,0.52); color: #fff; font-size: 9px; padding: 2px 5px; border-radius: 3px; }
+    .feed-no-image { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text3); text-align: center; padding: 12px; line-height: 1.4; }
     .feed-item.dragging { opacity: 0.3; transform: scale(0.97); }
-    .feed-item.drag-over::after {
-      content: ''; position: absolute; inset: 0;
-      border: 2.5px solid var(--accent); pointer-events: none;
-    }
+    .feed-item.drag-over::after { content: ''; position: absolute; inset: 0; border: 2.5px solid var(--accent); pointer-events: none; }
 
     /* ── Skeleton ── */
-    .feed-skeleton {
-      aspect-ratio: 4/5; background: var(--surface2);
-      position: relative; overflow: hidden;
-    }
-    .feed-skeleton::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.07) 50%,transparent 100%);
-      animation: shimmer 1.3s ease-in-out infinite;
-      transform: translateX(-100%);
-    }
-    [data-theme="dark"] .feed-skeleton::after {
-      background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%);
-    }
+    .feed-skeleton { aspect-ratio: 4/5; background: var(--surface2); position: relative; overflow: hidden; }
+    .feed-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.07) 50%,transparent 100%); animation: shimmer 1.3s ease-in-out infinite; transform: translateX(-100%); }
+    [data-theme="dark"] .feed-skeleton::after { background: linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%); }
     @keyframes shimmer { to { transform: translateX(100%); } }
 
     /* ── Empty state ── */
-    .feed-empty {
-      max-width: 935px; margin: 80px auto;
-      display: none; flex-direction: column; align-items: center;
-      gap: 12px; color: var(--text3); text-align: center; padding: 0 20px;
-    }
+    .feed-empty { max-width: 935px; margin: 80px auto; display: none; flex-direction: column; align-items: center; gap: 12px; color: var(--text3); text-align: center; padding: 0 20px; }
     .feed-empty.show { display: flex; }
     .feed-empty p:first-of-type { font-size: 20px; font-weight: 300; color: var(--text); }
     .feed-empty p:last-of-type { font-size: 13px; max-width: 320px; line-height: 1.6; }
 
     /* ── Toast ── */
-    .toast {
-      position: fixed; bottom: 22px; left: 50%;
-      transform: translateX(-50%) translateY(60px);
-      background: var(--text); color: var(--bg);
-      padding: 9px 18px; border-radius: 20px;
-      font-size: 13px; font-weight: 500;
-      z-index: 9999; pointer-events: none;
-      transition: transform 0.28s ease, opacity 0.28s ease;
-      opacity: 0; white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--text); color: var(--bg); padding: 9px 18px; border-radius: 20px; font-size: 13px; font-weight: 500; z-index: 9999; pointer-events: none; transition: transform 0.28s ease, opacity 0.28s ease; opacity: 0; white-space: nowrap; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* ── Spin ── */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinning { animation: spin 0.7s linear infinite; }
 
@@ -452,11 +256,7 @@
     }
     @media (max-width: 680px) {
       body { flex-direction: column; }
-      .sidebar {
-        width: 100%; height: auto; flex-direction: row;
-        border-right: none; border-bottom: 1px solid var(--border);
-        padding: 8px 12px; justify-content: flex-start;
-      }
+      .sidebar { width: 100%; height: auto; flex-direction: row; border-right: none; border-bottom: 1px solid var(--border); padding: 8px 12px; justify-content: flex-start; }
       .sidebar-logo { margin-bottom: 0; margin-right: 8px; }
       .sidebar-spacer { display: none; }
       .sidebar-bottom { flex-direction: row; }
@@ -478,9 +278,8 @@
 
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar" id="sidebar">
-  <!-- Logo -->
   <div class="sidebar-logo">
-    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="IG Preview Widget">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect width="36" height="36" rx="9" fill="url(#igG)"/>
       <circle cx="18" cy="18" r="6.5" stroke="white" stroke-width="2.2"/>
       <circle cx="25.5" cy="10.5" r="1.5" fill="white"/>
@@ -494,28 +293,25 @@
       </defs>
     </svg>
   </div>
-
-  <!-- Nav -->
-  <button class="nav-btn active" data-panel="setup" title="Setup" aria-label="Setup">
+  <button class="nav-btn active" data-panel="setup" title="Setup">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
   </button>
-  <button class="nav-btn" data-panel="profile" title="Profile" aria-label="Profile">
+  <button class="nav-btn" data-panel="profile" title="Profile">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
   </button>
-  <button class="nav-btn" data-panel="highlights" title="Highlights" aria-label="Highlights">
+  <button class="nav-btn" data-panel="highlights" title="Highlights">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
   </button>
-  <button class="nav-btn" data-panel="stats" title="Stats" aria-label="Stats">
+  <button class="nav-btn" data-panel="stats" title="Stats">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
   </button>
-
   <div class="sidebar-spacer"></div>
   <div class="sidebar-bottom">
-    <button class="nav-btn" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">
+    <button class="nav-btn" id="themeBtn" title="Toggle theme">
       <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
-    <button class="nav-btn" id="copyEmbedBtn" title="Copy embed URL" aria-label="Copy embed URL">
+    <button class="nav-btn" id="copyEmbedBtn" title="Copy embed URL">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     </button>
   </div>
@@ -526,36 +322,28 @@
   <div class="panel-header" id="panelTitle">Settings</div>
   <div class="panel-body" id="panelBody">
 
-    <!-- SETUP section -->
     <div class="panel-section active" id="sec-setup">
-
       <div class="field">
         <label>Notion API Token</label>
         <input type="password" id="token" placeholder="secret_xxxxxxxxxxxxxxxx" autocomplete="off"/>
         <span class="hint">Notion → Settings → Integrations → copy token</span>
       </div>
-
       <div class="field">
         <label>Database URL</label>
         <input type="url" id="pageurl" placeholder="https://www.notion.so/…"/>
         <span class="hint">Make sure you connected the integration first</span>
       </div>
-
       <button class="btn btn-primary" id="loadBtn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
         Load posts
       </button>
-
       <div class="status-box" id="statusBox"></div>
-
       <div class="embed-card" id="embedCard">
         <span class="embed-label">Embed URL (paste in Notion)</span>
         <input type="text" id="embedUrl" readonly onclick="this.select()"/>
         <button class="btn btn-ghost" onclick="copyEmbed()">Copy embed link</button>
       </div>
-
       <hr style="border:none;border-top:1px solid var(--border);"/>
-
       <div class="field">
         <label>Filter by type</label>
         <select id="filterType">
@@ -565,14 +353,10 @@
           <option value="Reel">Reel</option>
         </select>
       </div>
-
       <div class="field">
         <label>Filter by category</label>
-        <select id="filterCat">
-          <option value="">All categories</option>
-        </select>
+        <select id="filterCat"><option value="">All categories</option></select>
       </div>
-
       <div class="field">
         <label>Sort order</label>
         <select id="sortOrder">
@@ -581,15 +365,12 @@
           <option value="manual">Manual (drag)</option>
         </select>
       </div>
-
       <div class="field">
         <label>Search</label>
         <input type="search" id="searchInput" placeholder="Search posts…"/>
       </div>
+    </div>
 
-    </div><!-- /sec-setup -->
-
-    <!-- PROFILE section -->
     <div class="panel-section" id="sec-profile">
       <div class="field">
         <label>Profile photo</label>
@@ -624,9 +405,8 @@
           <span id="linkColorVal" style="font-size:12px;color:var(--text2)">#0095f6</span>
         </div>
       </div>
-    </div><!-- /sec-profile -->
+    </div>
 
-    <!-- HIGHLIGHTS section -->
     <div class="panel-section" id="sec-highlights">
       <p style="font-size:12px;color:var(--text2);line-height:1.5;">Drag to reorder. Changes update the preview instantly.</p>
       <div class="hl-list" id="hlList"></div>
@@ -634,35 +414,21 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Add highlight
       </button>
-    </div><!-- /sec-highlights -->
+    </div>
 
-    <!-- STATS section -->
     <div class="panel-section" id="sec-stats">
       <p style="font-size:12px;color:var(--text2);line-height:1.5;">Display-only numbers shown in the profile header.</p>
-      <div class="field">
-        <label>Posts</label>
-        <input type="number" id="statPosts" placeholder="0" min="0"/>
-      </div>
-      <div class="field">
-        <label>Followers</label>
-        <input type="number" id="statFollowers" placeholder="0" min="0"/>
-      </div>
-      <div class="field">
-        <label>Following</label>
-        <input type="number" id="statFollowing" placeholder="0" min="0"/>
-      </div>
-    </div><!-- /sec-stats -->
+      <div class="field"><label>Posts</label><input type="number" id="statPosts" placeholder="0" min="0"/></div>
+      <div class="field"><label>Followers</label><input type="number" id="statFollowers" placeholder="0" min="0"/></div>
+      <div class="field"><label>Following</label><input type="number" id="statFollowing" placeholder="0" min="0"/></div>
+    </div>
 
-  </div><!-- /panel-body -->
+  </div>
 </section>
 
 <!-- ══ PREVIEW PANEL ══ -->
 <main class="preview-panel" id="previewPanel">
-
-  <!-- Profile header -->
   <div class="ig-wrap" id="igWrap">
-
-    <!-- Header row -->
     <div class="ig-header-row">
       <div class="ig-avatar-outer">
         <div class="ig-avatar-ring"></div>
@@ -673,7 +439,7 @@
         <div class="ig-username-row">
           <h1 id="igUsernameEl" class="ig-username">your_username</h1>
           <button class="ig-action-btn">Edit profile</button>
-          <button class="ig-more-btn" aria-label="More options">
+          <button class="ig-more-btn">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
           </button>
         </div>
@@ -688,168 +454,128 @@
           <a id="igLinkEl" class="ig-website" href="#" target="_blank" rel="noopener"></a>
         </div>
       </div>
-    </div><!-- /ig-header-row -->
-
-    <!-- Mobile bio -->
+    </div>
     <div class="ig-bio-mobile">
       <p id="igDisplaynameMob" class="ig-displayname">Display Name</p>
       <p id="igBioMob" class="ig-bio"></p>
       <a id="igLinkMob" class="ig-website" href="#" target="_blank" rel="noopener"></a>
     </div>
-
-    <!-- Highlights -->
-    <div class="ig-highlights" id="igHighlights" role="list" aria-label="Story highlights"></div>
-
-    <!-- Feed nav -->
-    <nav class="ig-feed-nav" aria-label="Feed navigation">
-      <button class="ig-nav-btn active" data-view="grid" aria-label="Grid view">
+    <div class="ig-highlights" id="igHighlights" role="list"></div>
+    <nav class="ig-feed-nav">
+      <button class="ig-nav-btn active" data-view="grid">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       </button>
-      <button class="ig-nav-btn" data-view="reels" aria-label="Reels">
+      <button class="ig-nav-btn" data-view="reels">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="12" height="12" rx="2"/><path d="M22 8l-6 4 6 4V8z"/></svg>
       </button>
-      <button class="ig-nav-btn" data-view="tagged" aria-label="Tagged">
+      <button class="ig-nav-btn" data-view="tagged">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
       </button>
-      <button class="ig-nav-btn" id="refreshNavBtn" aria-label="Refresh">
+      <button class="ig-nav-btn" id="refreshNavBtn">
         <svg id="refreshIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
       </button>
     </nav>
-
-  </div><!-- /ig-wrap -->
-
-  <!-- Feed grid -->
-  <div class="ig-feed" id="igFeed" role="list" aria-label="Posts"></div>
-
-  <!-- Empty state -->
+  </div>
+  <div class="ig-feed" id="igFeed" role="list"></div>
   <div class="feed-empty" id="feedEmpty">
     <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
     <p>No posts yet</p>
     <p>Enter your Notion token and database URL, then click "Load posts".</p>
   </div>
-
 </main>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-/* ────────────────────────────────────────────────────────────────
-   STATE
-──────────────────────────────────────────────────────────────── */
+/* ── STATE ── */
 const S = {
-  allPosts:  [],   // raw from Notion
-  posts:     [],   // after filter/sort
-  view:      'grid',
-  dragging:  null,
-
-  profile: {
-    avatar: '', username: '', displayname: '', bio: '', link: '', linkColor: '#0095f6'
-  },
-
-  stats: { posts: 0, followers: 0, following: 0 },
-
+  allPosts: [], posts: [], view: 'grid', dragging: null,
+  profile: { avatar:'', username:'', displayname:'', bio:'', link:'', linkColor:'#0095f6' },
+  stats: { posts:0, followers:0, following:0 },
   highlights: [
-    { id: id(), name:'Style Tips', cover:'', color:'#c13584' },
-    { id: id(), name:'Self Care',  cover:'', color:'#833ab4' },
-    { id: id(), name:'Mindset',    cover:'', color:'#0095f6' },
-    { id: id(), name:'Lifestyle',  cover:'', color:'#fd5949' },
+    { id:id(), name:'Style Tips', cover:'', color:'#c13584' },
+    { id:id(), name:'Self Care',  cover:'', color:'#833ab4' },
+    { id:id(), name:'Mindset',    cover:'', color:'#0095f6' },
+    { id:id(), name:'Lifestyle',  cover:'', color:'#fd5949' },
   ],
 };
 
-/* ────────────────────────────────────────────────────────────────
-   UTILS
-──────────────────────────────────────────────────────────────── */
+/* ── UTILS ── */
 function id() { return Math.random().toString(36).slice(2,9); }
-function $(sel) { return document.querySelector(sel); }
 function $id(i) { return document.getElementById(i); }
-
 function fmt(n) {
-  n = parseInt(n,10)||0;
-  if (n>=1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
-  if (n>=1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
+  n=parseInt(n,10)||0;
+  if(n>=1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
+  if(n>=1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
   return String(n);
 }
-
-function esc(s) {
-  return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-function save(k,v) { try { localStorage.setItem('igw_'+k, JSON.stringify(v)); } catch{} }
-function load(k,d) { try { const v=localStorage.getItem('igw_'+k); return v!==null?JSON.parse(v):d; } catch{ return d; } }
-
+function save(k,v) { try{localStorage.setItem('igw_'+k,JSON.stringify(v));}catch{} }
+function load(k,d) { try{const v=localStorage.getItem('igw_'+k);return v!==null?JSON.parse(v):d;}catch{return d;} }
 function toast(msg) {
-  const el=$id('toast');
-  el.textContent=msg; el.classList.add('show');
-  clearTimeout(el._t);
-  el._t=setTimeout(()=>el.classList.remove('show'),2400);
+  const el=$id('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),2400);
 }
-
-function status(msg, type) {
+function status(msg,type) {
   const el=$id('statusBox');
   el.className='status-box'+(type?' '+type:'');
   el.style.display=msg?'block':'none';
   el.textContent=msg||'';
 }
-
-function friendlyErr(data, status) {
-  if (!navigator.onLine) return 'No internet connection.';
-  if (status===401) return 'Invalid API token — check your Notion integration token.';
-  if (status===403) return 'Database not shared with your integration. Open Notion → ··· → Connect to → select your integration.';
-  if (status===404) return 'Database not found. Double-check the URL.';
-  if (status===400) return 'Bad request: ' + (data?.error||'check your database URL.');
-  return data?.error || 'Something went wrong. Check Vercel function logs.';
+function friendlyErr(data,s) {
+  if(!navigator.onLine) return 'No internet connection.';
+  if(s===401) return 'Invalid API token — check your Notion integration token.';
+  if(s===403) return 'Database not shared with your integration. Open Notion → ··· → Connect to → select your integration.';
+  if(s===404) return 'Database not found. Double-check the URL.';
+  if(s===400) return 'Bad request: '+(data?.error||'check your database URL.');
+  return data?.error||'Something went wrong. Check Vercel function logs.';
 }
 
-/* ────────────────────────────────────────────────────────────────
-   SIDEBAR NAV
-──────────────────────────────────────────────────────────────── */
-const panelTitles = { setup:'Settings', profile:'Profile', highlights:'Highlights', stats:'Stats' };
-
-document.querySelectorAll('.nav-btn[data-panel]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const p = btn.dataset.panel;
+/* ── SIDEBAR NAV ── */
+const panelTitles={setup:'Settings',profile:'Profile',highlights:'Highlights',stats:'Stats'};
+document.querySelectorAll('.nav-btn[data-panel]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const p=btn.dataset.panel;
     document.querySelectorAll('.nav-btn[data-panel]').forEach(b=>b.classList.toggle('active',b===btn));
     document.querySelectorAll('.panel-section').forEach(s=>s.classList.toggle('active',s.id==='sec-'+p));
-    $id('panelTitle').textContent = panelTitles[p]||'';
+    $id('panelTitle').textContent=panelTitles[p]||'';
   });
 });
 
-/* ────────────────────────────────────────────────────────────────
-   THEME
-──────────────────────────────────────────────────────────────── */
+/* ── THEME ── */
 function applyTheme(t) {
   document.documentElement.dataset.theme=t;
-  $id('iconSun').style.display  = t==='dark'  ? 'none' : '';
-  $id('iconMoon').style.display = t==='light' ? 'none' : '';
+  $id('iconSun').style.display=t==='dark'?'none':'';
+  $id('iconMoon').style.display=t==='light'?'none':'';
   save('theme',t);
 }
 $id('themeBtn').addEventListener('click',()=>{
   applyTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 });
 
-/* ────────────────────────────────────────────────────────────────
-   EMBED
-──────────────────────────────────────────────────────────────── */
+/* ── EMBED ── */
 function buildEmbedUrl() {
-  const u=new URL(location.href); u.search=''; u.searchParams.set('embed','1'); return u.toString();
+  const u=new URL(location.href);
+  u.search='';
+  u.searchParams.set('embed','1');
+  // Encode token + db into URL so iframe can load data without localStorage
+  const token=$id('token').value.trim();
+  const pageUrl=$id('pageurl').value.trim();
+  if(token)   u.searchParams.set('t', btoa(token));
+  if(pageUrl) u.searchParams.set('db', encodeURIComponent(pageUrl));
+  return u.toString();
 }
 function copyEmbed() {
-  navigator.clipboard.writeText(buildEmbedUrl()).then(()=>toast('Embed URL copied!')).catch(()=>{
-    const i=$id('embedUrl'); i.select(); document.execCommand('copy'); toast('Copied!');
-  });
+  navigator.clipboard.writeText(buildEmbedUrl())
+    .then(()=>toast('Embed URL copied!'))
+    .catch(()=>{ const i=$id('embedUrl'); i.select(); document.execCommand('copy'); toast('Copied!'); });
 }
 $id('copyEmbedBtn').addEventListener('click', copyEmbed);
 
-/* ────────────────────────────────────────────────────────────────
-   PROFILE — inputs → preview
-──────────────────────────────────────────────────────────────── */
+/* ── PROFILE ── */
 function renderProfile() {
   const p=S.profile;
-
-  // avatar
-  const img=$id('igAvatarImg'), fb=$id('igAvatarFallback'), thumb=$id('avatarThumb');
-  if (p.avatar) {
+  const img=$id('igAvatarImg'),fb=$id('igAvatarFallback'),thumb=$id('avatarThumb');
+  if(p.avatar){
     img.src=p.avatar; img.style.display=''; fb.style.display='none';
     thumb.src=p.avatar; thumb.style.display='';
   } else {
@@ -857,429 +583,282 @@ function renderProfile() {
     fb.textContent=(p.username||'?').replace('@','').charAt(0).toUpperCase();
     thumb.style.display='none';
   }
-
-  $id('igUsernameEl').textContent = p.username || 'your_username';
-  ['igDisplaynameEl','igDisplaynameMob'].forEach(i=>{ $id(i).textContent=p.displayname||''; });
-  ['igBioEl','igBioMob'].forEach(i=>{ $id(i).textContent=p.bio||''; });
-
+  $id('igUsernameEl').textContent=p.username||'your_username';
+  ['igDisplaynameEl','igDisplaynameMob'].forEach(i=>{$id(i).textContent=p.displayname||'';});
+  ['igBioEl','igBioMob'].forEach(i=>{$id(i).textContent=p.bio||'';});
   const disp=(p.link||'').replace(/^https?:\/\//,'').replace(/\/$/,'');
   ['igLinkEl','igLinkMob'].forEach(i=>{
     const el=$id(i);
-    el.href=p.link||'#'; el.textContent=disp;
-    el.style.color=p.linkColor||'#0095f6';
+    el.href=p.link||'#'; el.textContent=disp; el.style.color=p.linkColor||'#0095f6';
   });
 }
-
 function renderStats() {
   const s=S.stats;
-  $id('stPosts').textContent    = fmt(s.posts    || S.allPosts.length);
-  $id('stFollowers').textContent= fmt(s.followers);
-  $id('stFollowing').textContent= fmt(s.following);
+  $id('stPosts').textContent=fmt(s.posts||S.allPosts.length);
+  $id('stFollowers').textContent=fmt(s.followers);
+  $id('stFollowing').textContent=fmt(s.following);
 }
-
 function wireProfileInputs() {
-  const map=[['igavatar','avatar'],['igusername','username'],['igdisplayname','displayname'],['igbio','bio'],['iglink','link']];
-  map.forEach(([elId,key])=>{
-    $id(elId).addEventListener('input',e=>{
-      S.profile[key]=e.target.value; save('profile',S.profile); renderProfile();
-    });
+  [['igavatar','avatar'],['igusername','username'],['igdisplayname','displayname'],['igbio','bio'],['iglink','link']].forEach(([elId,key])=>{
+    $id(elId).addEventListener('input',e=>{S.profile[key]=e.target.value;save('profile',S.profile);renderProfile();});
   });
   $id('linkColor').addEventListener('input',e=>{
     S.profile.linkColor=e.target.value;
     $id('linkColorVal').textContent=e.target.value;
-    save('profile',S.profile); renderProfile();
+    save('profile',S.profile);renderProfile();
   });
   ['statPosts','statFollowers','statFollowing'].forEach(elId=>{
     const key=elId.replace('stat','').toLowerCase();
-    $id(elId).addEventListener('input',e=>{
-      S.stats[key]=parseInt(e.target.value,10)||0;
-      save('stats',S.stats); renderStats();
-    });
+    $id(elId).addEventListener('input',e=>{S.stats[key]=parseInt(e.target.value,10)||0;save('stats',S.stats);renderStats();});
   });
 }
-
 function loadProfile() {
-  S.profile    = load('profile', S.profile);
-  S.stats      = load('stats',   S.stats);
-  S.highlights = load('highlights', S.highlights);
-
-  $id('igavatar').value     = S.profile.avatar      || '';
-  $id('igusername').value   = S.profile.username    || '';
-  $id('igdisplayname').value= S.profile.displayname || '';
-  $id('igbio').value        = S.profile.bio         || '';
-  $id('iglink').value       = S.profile.link        || '';
-  $id('linkColor').value    = S.profile.linkColor   || '#0095f6';
-  $id('linkColorVal').textContent = S.profile.linkColor || '#0095f6';
-
-  $id('statPosts').value     = S.stats.posts     || '';
-  $id('statFollowers').value = S.stats.followers || '';
-  $id('statFollowing').value = S.stats.following || '';
-
-  renderProfile();
-  renderStats();
+  S.profile=load('profile',S.profile);
+  S.stats=load('stats',S.stats);
+  S.highlights=load('highlights',S.highlights);
+  $id('igavatar').value=S.profile.avatar||'';
+  $id('igusername').value=S.profile.username||'';
+  $id('igdisplayname').value=S.profile.displayname||'';
+  $id('igbio').value=S.profile.bio||'';
+  $id('iglink').value=S.profile.link||'';
+  $id('linkColor').value=S.profile.linkColor||'#0095f6';
+  $id('linkColorVal').textContent=S.profile.linkColor||'#0095f6';
+  $id('statPosts').value=S.stats.posts||'';
+  $id('statFollowers').value=S.stats.followers||'';
+  $id('statFollowing').value=S.stats.following||'';
+  renderProfile(); renderStats();
 }
 
-/* ────────────────────────────────────────────────────────────────
-   HIGHLIGHTS
-──────────────────────────────────────────────────────────────── */
-function saveHighlights() { save('highlights', S.highlights); }
-
-function renderIgHighlights() {
-  const row=$id('igHighlights');
-  row.innerHTML='';
+/* ── HIGHLIGHTS ── */
+function saveHighlights(){save('highlights',S.highlights);}
+function renderIgHighlights(){
+  const row=$id('igHighlights'); row.innerHTML='';
   S.highlights.forEach(hl=>{
-    const wrap=document.createElement('div');
-    wrap.className='ig-hl'; wrap.setAttribute('role','listitem');
+    const wrap=document.createElement('div'); wrap.className='ig-hl';
     const ring=document.createElement('div'); ring.className='ig-hl-ring';
     const inner=document.createElement('div'); inner.className='ig-hl-inner';
-    if (hl.cover) {
-      const img=document.createElement('img');
-      img.src=hl.cover; img.alt=hl.name; img.loading='lazy';
-      img.onerror=()=>{ img.remove(); inner.style.background=hl.color; };
-      inner.appendChild(img);
-    } else { inner.style.background=hl.color; }
+    if(hl.cover){const img=document.createElement('img');img.src=hl.cover;img.alt=hl.name;img.loading='lazy';img.onerror=()=>{img.remove();inner.style.background=hl.color;};inner.appendChild(img);}
+    else{inner.style.background=hl.color;}
     ring.appendChild(inner);
-    const lbl=document.createElement('span'); lbl.className='ig-hl-name'; lbl.textContent=hl.name||'Highlight';
-    wrap.appendChild(ring); wrap.appendChild(lbl);
-    row.appendChild(wrap);
+    const lbl=document.createElement('span');lbl.className='ig-hl-name';lbl.textContent=hl.name||'Highlight';
+    wrap.appendChild(ring);wrap.appendChild(lbl);row.appendChild(wrap);
   });
-  // Add button
-  const add=document.createElement('div');
-  add.className='ig-hl ig-hl-add';
-  add.setAttribute('role','button'); add.setAttribute('tabindex','0'); add.setAttribute('aria-label','Add highlight');
-  const ar=document.createElement('div'); ar.className='ig-hl-ring';
-  const ai=document.createElement('div'); ai.className='ig-hl-inner'; ai.textContent='+';
+  const add=document.createElement('div');add.className='ig-hl ig-hl-add';
+  const ar=document.createElement('div');ar.className='ig-hl-ring';
+  const ai=document.createElement('div');ai.className='ig-hl-inner';ai.textContent='+';
   ar.appendChild(ai);
-  const al=document.createElement('span'); al.className='ig-hl-name'; al.textContent='New';
-  add.appendChild(ar); add.appendChild(al);
-  add.addEventListener('click', addHighlight);
-  add.addEventListener('keydown',e=>e.key==='Enter'&&addHighlight());
+  const al=document.createElement('span');al.className='ig-hl-name';al.textContent='New';
+  add.appendChild(ar);add.appendChild(al);
+  add.addEventListener('click',addHighlight);
   row.appendChild(add);
 }
-
-function buildHlItem(hl) {
-  const item=document.createElement('div');
-  item.className='hl-item'; item.dataset.id=hl.id;
-
-  // drag handle
-  const drag=document.createElement('div'); drag.className='hl-drag'; drag.title='Drag to reorder';
+function buildHlItem(hl){
+  const item=document.createElement('div');item.className='hl-item';item.dataset.id=hl.id;
+  const drag=document.createElement('div');drag.className='hl-drag';
   drag.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="5" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="19" r="1"/></svg>';
-
-  // color swatch
-  const sw=document.createElement('div'); sw.className='hl-swatch';
-  const ci=document.createElement('input'); ci.type='color'; ci.value=hl.color||'#c13584'; ci.setAttribute('aria-label','Highlight color');
-  ci.addEventListener('input',()=>{ hl.color=ci.value; saveHighlights(); renderIgHighlights(); });
+  const sw=document.createElement('div');sw.className='hl-swatch';
+  const ci=document.createElement('input');ci.type='color';ci.value=hl.color||'#c13584';
+  ci.addEventListener('input',()=>{hl.color=ci.value;saveHighlights();renderIgHighlights();});
   sw.appendChild(ci);
-
-  // text fields
-  const fields=document.createElement('div'); fields.className='hl-fields';
-  const ni=document.createElement('input'); ni.type='text'; ni.placeholder='Highlight name'; ni.value=hl.name||'';
-  ni.addEventListener('input',()=>{ hl.name=ni.value; saveHighlights(); renderIgHighlights(); });
-  const cov=document.createElement('input'); cov.type='url'; cov.placeholder='Cover image URL (optional)'; cov.value=hl.cover||'';
-  cov.addEventListener('input',()=>{ hl.cover=cov.value; saveHighlights(); renderIgHighlights(); });
-  fields.appendChild(ni); fields.appendChild(cov);
-
-  // delete
-  const del=document.createElement('button'); del.className='hl-del'; del.setAttribute('aria-label','Delete highlight');
+  const fields=document.createElement('div');fields.className='hl-fields';
+  const ni=document.createElement('input');ni.type='text';ni.placeholder='Highlight name';ni.value=hl.name||'';
+  ni.addEventListener('input',()=>{hl.name=ni.value;saveHighlights();renderIgHighlights();});
+  const cov=document.createElement('input');cov.type='url';cov.placeholder='Cover image URL (optional)';cov.value=hl.cover||'';
+  cov.addEventListener('input',()=>{hl.cover=cov.value;saveHighlights();renderIgHighlights();});
+  fields.appendChild(ni);fields.appendChild(cov);
+  const del=document.createElement('button');del.className='hl-del';
   del.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>';
-  del.addEventListener('click',()=>{ S.highlights=S.highlights.filter(h=>h.id!==hl.id); saveHighlights(); renderHlList(); renderIgHighlights(); });
-
-  // drag events
+  del.addEventListener('click',()=>{S.highlights=S.highlights.filter(h=>h.id!==hl.id);saveHighlights();renderHlList();renderIgHighlights();});
   drag.addEventListener('mousedown',()=>item.setAttribute('draggable','true'));
-  item.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain',hl.id); setTimeout(()=>item.classList.add('dragging'),0); });
-  item.addEventListener('dragend',  ()=>{ item.classList.remove('dragging'); item.removeAttribute('draggable'); });
-  item.addEventListener('dragover', e=>{ e.preventDefault(); item.classList.add('drag-over'); });
+  item.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',hl.id);setTimeout(()=>item.classList.add('dragging'),0);});
+  item.addEventListener('dragend',()=>{item.classList.remove('dragging');item.removeAttribute('draggable');});
+  item.addEventListener('dragover',e=>{e.preventDefault();item.classList.add('drag-over');});
   item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
   item.addEventListener('drop',e=>{
-    e.preventDefault(); item.classList.remove('drag-over');
+    e.preventDefault();item.classList.remove('drag-over');
     const fromId=e.dataTransfer.getData('text/plain');
     const fi=S.highlights.findIndex(h=>h.id===fromId);
     const ti=S.highlights.findIndex(h=>h.id===hl.id);
-    if (fi>-1&&ti>-1&&fi!==ti){ const [m]=S.highlights.splice(fi,1); S.highlights.splice(ti,0,m); saveHighlights(); renderHlList(); renderIgHighlights(); }
+    if(fi>-1&&ti>-1&&fi!==ti){const[m]=S.highlights.splice(fi,1);S.highlights.splice(ti,0,m);saveHighlights();renderHlList();renderIgHighlights();}
   });
-
-  item.appendChild(drag); item.appendChild(sw); item.appendChild(fields); item.appendChild(del);
+  item.appendChild(drag);item.appendChild(sw);item.appendChild(fields);item.appendChild(del);
   return item;
 }
-
-function renderHlList() {
-  const list=$id('hlList'); list.innerHTML='';
-  S.highlights.forEach(hl=>list.appendChild(buildHlItem(hl)));
-}
-
-function addHighlight() {
-  S.highlights.push({ id:id(), name:'New', cover:'', color:'#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0') });
-  saveHighlights(); renderHlList(); renderIgHighlights();
-  // switch to highlights panel
+function renderHlList(){const list=$id('hlList');list.innerHTML='';S.highlights.forEach(hl=>list.appendChild(buildHlItem(hl)));}
+function addHighlight(){
+  S.highlights.push({id:id(),name:'New',cover:'',color:'#'+Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0')});
+  saveHighlights();renderHlList();renderIgHighlights();
   document.querySelectorAll('.nav-btn[data-panel]').forEach(b=>b.classList.toggle('active',b.dataset.panel==='highlights'));
   document.querySelectorAll('.panel-section').forEach(s=>s.classList.toggle('active',s.id==='sec-highlights'));
   $id('panelTitle').textContent='Highlights';
 }
+$id('addHlBtn').addEventListener('click',addHighlight);
 
-$id('addHlBtn').addEventListener('click', addHighlight);
-
-/* ────────────────────────────────────────────────────────────────
-   FEED NAVIGATION
-──────────────────────────────────────────────────────────────── */
+/* ── FEED NAV ── */
 document.querySelectorAll('.ig-nav-btn[data-view]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.ig-nav-btn[data-view]').forEach(b=>b.classList.toggle('active',b===btn));
-    S.view=btn.dataset.view;
-    applyFilters();
+    S.view=btn.dataset.view; applyFilters();
   });
 });
+$id('refreshNavBtn').addEventListener('click',loadPosts);
 
-$id('refreshNavBtn').addEventListener('click', loadPosts);
-
-/* ────────────────────────────────────────────────────────────────
-   FILTERS & SORT
-──────────────────────────────────────────────────────────────── */
-function applyFilters() {
+/* ── FILTERS ── */
+function applyFilters(){
   let posts=[...S.allPosts];
-
-  // view filter
-  if (S.view==='reels')  posts=posts.filter(p=>p.isVideo||(p.type==='Reel'));
-  if (S.view==='tagged') posts=posts.filter(p=>p.tagged);
-
-  // panel filters
+  if(S.view==='reels')  posts=posts.filter(p=>p.isVideo);
+  if(S.view==='tagged') posts=posts.filter(p=>p.tagged);
   const ft=$id('filterType').value;
   const fc=$id('filterCat').value;
   const fs=$id('searchInput').value.trim().toLowerCase();
-
-  if (ft==='Reel')     posts=posts.filter(p=>p.isVideo);
-  if (ft==='Carousel') posts=posts.filter(p=>p.isCarousel);
-  if (ft==='Post')     posts=posts.filter(p=>!p.isVideo&&!p.isCarousel);
-  if (fc) posts=posts.filter(p=>p.category===fc);
-  if (fs) posts=posts.filter(p=>(p.title||'').toLowerCase().includes(fs));
-
-  // sort
+  if(ft==='Reel')     posts=posts.filter(p=>p.isVideo);
+  if(ft==='Carousel') posts=posts.filter(p=>p.isCarousel);
+  if(ft==='Post')     posts=posts.filter(p=>!p.isVideo&&!p.isCarousel);
+  if(fc) posts=posts.filter(p=>p.category===fc);
+  if(fs) posts=posts.filter(p=>(p.title||'').toLowerCase().includes(fs));
   const sort=$id('sortOrder').value;
-  if (sort==='newest') posts.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  if (sort==='oldest') posts.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
-
-  S.posts=posts;
-  renderFeed();
+  if(sort==='newest') posts.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(sort==='oldest') posts.sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  S.posts=posts; renderFeed();
 }
-
 [$id('filterType'),$id('filterCat'),$id('sortOrder')].forEach(el=>el.addEventListener('change',applyFilters));
 $id('searchInput').addEventListener('input',applyFilters);
 
-/* ────────────────────────────────────────────────────────────────
-   NOTION API
-──────────────────────────────────────────────────────────────── */
-async function loadPosts() {
+/* ── NOTION API ── */
+async function loadPosts(){
   const token=$id('token').value.trim();
   const pageUrl=$id('pageurl').value.trim();
   const btn=$id('loadBtn');
-
-  if (!token) { status('Enter your Notion integration token.','error'); return; }
-  if (!pageUrl){ status('Enter your Notion database URL.','error'); return; }
-
+  if(!token){status('Enter your Notion integration token.','error');return;}
+  if(!pageUrl){status('Enter your Notion database URL.','error');return;}
   btn.disabled=true;
   status('Connecting to Notion…','loading');
   $id('refreshIcon').classList.add('spinning');
   showSkeletons(9);
-
-  try {
-    const res=await fetch('/api/notion',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({token,pageUrl})
-    });
-
+  try{
+    const res=await fetch('/api/notion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,pageUrl})});
     let data;
-    try { data=await res.json(); } catch(e) {
-      throw new Error('Could not parse server response. Check Vercel function logs.');
-    }
-
-    if (!res.ok||!data.success) {
-      status(friendlyErr(data,res.status),'error');
-      showEmpty(); return;
-    }
-
+    try{data=await res.json();}catch(e){throw new Error('Could not parse server response.');}
+    if(!res.ok||!data.success){status(friendlyErr(data,res.status),'error');showEmpty();return;}
     S.allPosts=data.items||[];
-
-    // populate category filter
     const cats=[...new Set(S.allPosts.map(p=>p.category).filter(Boolean))];
     const fc=$id('filterCat');
     fc.innerHTML='<option value="">All categories</option>';
-    cats.forEach(c=>{ const o=document.createElement('option'); o.value=o.textContent=c; fc.appendChild(o); });
-
+    cats.forEach(c=>{const o=document.createElement('option');o.value=o.textContent=c;fc.appendChild(o);});
     applyFilters();
     status(`✓ ${S.allPosts.length} post${S.allPosts.length!==1?'s':''} loaded.`,'success');
-
-    // save settings
     save('settings',{token,pageUrl});
     save('allPosts',S.allPosts);
-
-    // show embed card
-    const ec=$id('embedCard'); ec.style.display='flex';
+    const ec=$id('embedCard');ec.style.display='flex';
     $id('embedUrl').value=buildEmbedUrl();
-
-    // update post count if not manually set
-    if (!S.stats.posts) renderStats();
-
-  } catch(e) {
-    status('Connection failed: '+e.message,'error');
-    showEmpty();
-  } finally {
-    btn.disabled=false;
-    $id('refreshIcon').classList.remove('spinning');
+    if(!S.stats.posts) renderStats();
+  }catch(e){
+    status('Connection failed: '+e.message,'error');showEmpty();
+  }finally{
+    btn.disabled=false;$id('refreshIcon').classList.remove('spinning');
   }
 }
+$id('loadBtn').addEventListener('click',loadPosts);
 
-$id('loadBtn').addEventListener('click', loadPosts);
-
-/* ────────────────────────────────────────────────────────────────
-   FEED RENDER
-──────────────────────────────────────────────────────────────── */
+/* ── FEED RENDER ── */
 const CELL_COLORS=['#f0e0d6','#d6e8f0','#d6f0e0','#f0d6e8','#e8f0d6','#e8d6f0','#f0f0d6','#d6d6f0','#f0d6d6'];
-
-function showSkeletons(n) {
-  const feed=$id('igFeed'); feed.innerHTML=''; $id('feedEmpty').classList.remove('show');
-  for(let i=0;i<n;i++){
-    const d=document.createElement('div'); d.className='feed-skeleton'; d.setAttribute('aria-hidden','true');
-    feed.appendChild(d);
-  }
+function showSkeletons(n){
+  const feed=$id('igFeed');feed.innerHTML='';$id('feedEmpty').classList.remove('show');
+  for(let i=0;i<n;i++){const d=document.createElement('div');d.className='feed-skeleton';feed.appendChild(d);}
 }
-
-function showEmpty() {
-  $id('igFeed').innerHTML=''; $id('feedEmpty').classList.add('show');
-}
-
-function renderFeed() {
+function showEmpty(){$id('igFeed').innerHTML='';$id('feedEmpty').classList.add('show');}
+function renderFeed(){
   const feed=$id('igFeed');
-  feed.innerHTML=''; $id('feedEmpty').classList.remove('show');
-
-  if (S.posts.length===0) { showEmpty(); return; }
-
+  feed.innerHTML='';$id('feedEmpty').classList.remove('show');
+  if(S.posts.length===0){showEmpty();return;}
   const frag=document.createDocumentFragment();
   S.posts.forEach((post,i)=>frag.appendChild(buildFeedItem(post,i)));
   feed.appendChild(frag);
 }
-
-function buildFeedItem(post, idx) {
+function buildFeedItem(post,idx){
   const item=document.createElement('div');
-  item.className='feed-item'; item.dataset.idx=idx;
-  item.setAttribute('role','listitem');
-  item.setAttribute('tabindex','0');
-  item.setAttribute('aria-label',post.title||'Post');
-
-  if (post.image) {
+  item.className='feed-item';item.dataset.idx=idx;
+  item.setAttribute('role','listitem');item.setAttribute('tabindex','0');item.setAttribute('aria-label',post.title||'Post');
+  if(post.image){
     const img=document.createElement('img');
-    img.src=post.image; img.alt=post.title||''; img.loading='lazy'; img.decoding='async';
-    img.onerror=()=>{ img.remove(); showNoImage(item,post,idx); };
+    img.src=post.image;img.alt=post.title||'';img.loading='lazy';img.decoding='async';
+    img.onerror=()=>{img.remove();showNoImage(item,post,idx);};
     item.appendChild(img);
-  } else {
-    showNoImage(item,post,idx);
-  }
-
-  // overlay
-  const ov=document.createElement('div'); ov.className='feed-overlay';
-  ov.innerHTML=
-    `<span class="feed-stat"><svg width="16" height="16" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${fmt(post.likes||0)}</span>`+
-    `<span class="feed-stat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${fmt(post.comments||0)}</span>`;
+  }else{showNoImage(item,post,idx);}
+  const ov=document.createElement('div');ov.className='feed-overlay';
+  ov.innerHTML=`<span class="feed-stat"><svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>${fmt(post.likes||0)}</span><span class="feed-stat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>${fmt(post.comments||0)}</span>`;
   item.appendChild(ov);
-
-  // type badge
-  if (post.isVideo) {
-    const b=document.createElement('div'); b.className='feed-type-badge'; b.setAttribute('aria-label','Video');
-    b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0 0 10 9.87v4.263a1 1 0 0 0 1.555.832l3.197-2.132a1 1 0 0 0 0-1.664z"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" fill="none" stroke="white" stroke-width="1.5"/></svg>';
-    item.appendChild(b);
-  } else if (post.isCarousel) {
-    const b=document.createElement('div'); b.className='feed-type-badge'; b.setAttribute('aria-label','Carousel');
-    b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" aria-hidden="true"><rect x="2" y="7" width="15" height="10" rx="1"/><path d="M22 9l-5 3 5 3V9z"/></svg>';
-    item.appendChild(b);
-  }
-
-  // date badge
-  if (post.date) {
-    const d=document.createElement('span'); d.className='feed-date-badge';
-    d.textContent=post.date.substring(5,10); item.appendChild(d);
-  }
-
-  // click
-  item.addEventListener('click',()=>{ if(post.url) window.open(post.url,'_blank','noopener'); });
-  item.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(post.url) window.open(post.url,'_blank','noopener'); } });
-
-  // drag & drop
+  if(post.isVideo){const b=document.createElement('div');b.className='feed-type-badge';b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M14.752 11.168l-3.197-2.132A1 1 0 0 0 10 9.87v4.263a1 1 0 0 0 1.555.832l3.197-2.132a1 1 0 0 0 0-1.664z"/><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" fill="none" stroke="white" stroke-width="1.5"/></svg>';item.appendChild(b);}
+  else if(post.isCarousel){const b=document.createElement('div');b.className='feed-type-badge';b.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8"><rect x="2" y="7" width="15" height="10" rx="1"/><path d="M22 9l-5 3 5 3V9z"/></svg>';item.appendChild(b);}
+  if(post.date){const d=document.createElement('span');d.className='feed-date-badge';d.textContent=post.date.substring(5,10);item.appendChild(d);}
+  item.addEventListener('click',()=>{if(post.url)window.open(post.url,'_blank','noopener');});
+  item.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(post.url)window.open(post.url,'_blank','noopener');}});
   item.setAttribute('draggable','true');
-  item.addEventListener('dragstart',e=>{
-    S.dragging=idx; e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',String(idx));
-    setTimeout(()=>item.classList.add('dragging'),0);
-  });
-  item.addEventListener('dragend',()=>{
-    item.classList.remove('dragging'); S.dragging=null;
-    document.querySelectorAll('.feed-item').forEach(el=>el.classList.remove('drag-over'));
-  });
-  item.addEventListener('dragover',e=>{ e.preventDefault(); item.classList.add('drag-over'); });
+  item.addEventListener('dragstart',e=>{S.dragging=idx;e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',String(idx));setTimeout(()=>item.classList.add('dragging'),0);});
+  item.addEventListener('dragend',()=>{item.classList.remove('dragging');S.dragging=null;document.querySelectorAll('.feed-item').forEach(el=>el.classList.remove('drag-over'));});
+  item.addEventListener('dragover',e=>{e.preventDefault();item.classList.add('drag-over');});
   item.addEventListener('dragleave',()=>item.classList.remove('drag-over'));
   item.addEventListener('drop',e=>{
-    e.preventDefault(); item.classList.remove('drag-over');
+    e.preventDefault();item.classList.remove('drag-over');
     const from=parseInt(e.dataTransfer.getData('text/plain'),10);
     const to=parseInt(item.dataset.idx,10);
-    if (!isNaN(from)&&!isNaN(to)&&from!==to) {
-      const [m]=S.posts.splice(from,1); S.posts.splice(to,0,m); renderFeed();
-    }
+    if(!isNaN(from)&&!isNaN(to)&&from!==to){const[m]=S.posts.splice(from,1);S.posts.splice(to,0,m);renderFeed();}
   });
-
   return item;
 }
-
-function showNoImage(item,post,idx) {
+function showNoImage(item,post,idx){
   item.style.background=CELL_COLORS[idx%CELL_COLORS.length];
-  const d=document.createElement('div'); d.className='feed-no-image';
+  const d=document.createElement('div');d.className='feed-no-image';
   d.textContent=(post.title||'Untitled').substring(0,28);
   item.appendChild(d);
 }
 
-/* ────────────────────────────────────────────────────────────────
-   EMBED MODE
-──────────────────────────────────────────────────────────────── */
-async function loadEmbedView() {
+/* ── EMBED MODE ── */
+async function loadEmbedView(){
   document.body.classList.add('embed');
 
-  const settings=load('settings',{});
-  if (!settings.token||!settings.pageUrl) {
-    showEmpty(); return;
-  }
+  const params=new URLSearchParams(location.search);
+  // Try to get token + db from URL params first (set by buildEmbedUrl)
+  const urlToken  = params.get('t')  ? atob(params.get('t'))                       : null;
+  const urlPageUrl= params.get('db') ? decodeURIComponent(params.get('db'))         : null;
 
-  // restore profile inputs (needed for renderProfile)
+  // Fall back to localStorage
+  const saved=load('settings',{});
+  const token  = urlToken   || saved.token;
+  const pageUrl= urlPageUrl || saved.pageUrl;
+
   loadProfile();
 
-  showSkeletons(9);
+  if(!token||!pageUrl){showEmpty();return;}
 
-  try {
-    const res=await fetch('/api/notion',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({token:settings.token,pageUrl:settings.pageUrl})
-    });
+  showSkeletons(9);
+  try{
+    const res=await fetch('/api/notion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,pageUrl})});
     const data=await res.json();
-    if (!res.ok||!data.success) { showEmpty(); return; }
+    if(!res.ok||!data.success){
+      // fall back to cache
+      const cached=load('allPosts',[]);
+      if(cached.length){S.allPosts=cached;applyFilters();}else showEmpty();
+      return;
+    }
     S.allPosts=data.items||[];
     applyFilters();
-  } catch(e) {
-    // try cached
+  }catch(e){
     const cached=load('allPosts',[]);
-    if (cached.length>0) { S.allPosts=cached; applyFilters(); } else showEmpty();
+    if(cached.length){S.allPosts=cached;applyFilters();}else showEmpty();
   }
 }
 
-/* ────────────────────────────────────────────────────────────────
-   INIT
-──────────────────────────────────────────────────────────────── */
-(function init() {
-  // theme
+/* ── INIT ── */
+(function init(){
   const savedTheme=load('theme',null);
   const preferDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
   applyTheme(savedTheme||(preferDark?'dark':'light'));
 
-  // restore settings inputs
   const s=load('settings',{});
-  if (s.token)   $id('token').value=s.token;
-  if (s.pageUrl) $id('pageurl').value=s.pageUrl;
-  if (s.token&&s.pageUrl) {
+  if(s.token)   $id('token').value=s.token;
+  if(s.pageUrl) $id('pageurl').value=s.pageUrl;
+  if(s.token&&s.pageUrl){
     $id('embedCard').style.display='flex';
     $id('embedUrl').value=buildEmbedUrl();
   }
@@ -1289,24 +868,29 @@ async function loadEmbedView() {
   renderHlList();
   renderIgHighlights();
 
-  // try cached posts
   const cached=load('allPosts',[]);
-  if (cached.length>0) {
+  if(cached.length>0){
     S.allPosts=cached;
     const cats=[...new Set(cached.map(p=>p.category).filter(Boolean))];
     const fc=$id('filterCat');
     fc.innerHTML='<option value="">All categories</option>';
-    cats.forEach(c=>{ const o=document.createElement('option'); o.value=o.textContent=c; fc.appendChild(o); });
+    cats.forEach(c=>{const o=document.createElement('option');o.value=o.textContent=c;fc.appendChild(o);});
     applyFilters();
-  } else {
+  }else{
     $id('feedEmpty').classList.add('show');
   }
 
-  // embed?
-  if (new URLSearchParams(location.search).get('embed')==='1') {
+  if(new URLSearchParams(location.search).get('embed')==='1'){
     loadEmbedView();
   }
 })();
 </script>
 </body>
 </html>
+ENDOFFILE
+echo "done"
+Output
+done
+Done
+
+You
