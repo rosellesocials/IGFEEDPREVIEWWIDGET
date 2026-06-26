@@ -4,8 +4,6 @@
 // of items the frontend grid can render.
 
 function extractDatabaseId(pageUrl) {
-  // Notion URLs end with a 32-char id (with or without dashes), optionally
-  // followed by ?v=... Match the last 32 hex chars in the URL.
   const match = pageUrl.match(/([a-f0-9]{32})(?:[^a-f0-9]|$)/i) ||
                 pageUrl.match(/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
   if (!match) return null;
@@ -43,8 +41,6 @@ function mapPage(page) {
   const selectProp = getFirstOfType(props, "select");
   const category = selectProp?.select?.name || null;
 
-  // Look for an image: prefer a Files property, then any URL property that
-  // looks like an image/video link.
   const filesProp = getFirstOfType(props, "files");
   let image = null;
   let isVideo = false;
@@ -70,7 +66,6 @@ function mapPage(page) {
           isVideo = isVideoUrl(p.url);
           break;
         }
-        // Fall back to any url at all (e.g. Canva links) if nothing image-like found.
         if (!image) image = p.url;
       }
     }
@@ -80,9 +75,6 @@ function mapPage(page) {
 }
 
 async function resolveDataSourceId(databaseId, token) {
-  // Notion's 2025-09-03+ API requires querying a "data source" rather than
-  // the database directly. Retrieve the database first to get its data
-  // source id, then query that.
   const dbRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -95,7 +87,7 @@ async function resolveDataSourceId(databaseId, token) {
   }
   const dataSourceId = dbData?.data_sources?.[0]?.id;
   if (!dataSourceId) {
-    return { error: "Database retrieved OK but has no data_sources field. Raw object type: " + (dbData?.object || "unknown") };
+    return { error: "No data_sources field. RAW RESPONSE: " + JSON.stringify(dbData).slice(0, 800) };
   }
   return { dataSourceId };
 }
@@ -121,7 +113,6 @@ module.exports = async function handler(req, res) {
     }
     const databaseId = formatDashedId(rawId);
 
-    // Resolve the data source id first (required as of Notion API 2025-09-03).
     const resolved = await resolveDataSourceId(databaseId, token);
 
     let notionRes, data;
@@ -138,8 +129,6 @@ module.exports = async function handler(req, res) {
       });
       data = await notionRes.json();
     } else {
-      // Could not resolve a data source. Report the REAL reason instead of
-      // silently retrying with the legacy endpoint (which masks the cause).
       res.status(400).json({
         success: false,
         error: "Step 1 (retrieve database) failed: " + (resolved.error || "unknown reason") + " — databaseId used: " + databaseId,
