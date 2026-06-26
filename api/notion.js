@@ -91,11 +91,11 @@ async function resolveDataSourceId(databaseId, token) {
   });
   const dbData = await dbRes.json();
   if (!dbRes.ok) {
-    return { error: dbData?.message || "Could not retrieve database." };
+    return { error: `(${dbRes.status}) ${dbData?.message || dbData?.code || "Could not retrieve database."}` };
   }
   const dataSourceId = dbData?.data_sources?.[0]?.id;
   if (!dataSourceId) {
-    return { error: "This database has no accessible data sources for this integration." };
+    return { error: "Database retrieved OK but has no data_sources field. Raw object type: " + (dbData?.object || "unknown") };
   }
   return { dataSourceId };
 }
@@ -121,9 +121,10 @@ module.exports = async function handler(req, res) {
     }
     const databaseId = formatDashedId(rawId);
 
-    // Try the new data-source-based flow first (required as of Notion API 2025-09-03).
-    let notionRes, data;
+    // Resolve the data source id first (required as of Notion API 2025-09-03).
     const resolved = await resolveDataSourceId(databaseId, token);
+
+    let notionRes, data;
 
     if (resolved.dataSourceId) {
       notionRes = await fetch(`https://api.notion.com/v1/data_sources/${resolved.dataSourceId}/query`, {
@@ -137,23 +138,19 @@ module.exports = async function handler(req, res) {
       });
       data = await notionRes.json();
     } else {
-      // Fall back to the legacy database query endpoint (older single-source databases).
-      notionRes = await fetch(`https://api.notion.com/v1/databases/${databaseId}/query`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Notion-Version": "2022-06-28",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ page_size: 60 }),
+      // Could not resolve a data source. Report the REAL reason instead of
+      // silently retrying with the legacy endpoint (which masks the cause).
+      res.status(400).json({
+        success: false,
+        error: "Step 1 (retrieve database) failed: " + (resolved.error || "unknown reason") + " — databaseId used: " + databaseId,
       });
-      data = await notionRes.json();
+      return;
     }
 
     if (!notionRes.ok) {
       res.status(notionRes.status).json({
         success: false,
-        error: data?.message || resolved.error || "Notion API rejected the request. Check your token and that the integration is connected to this database.",
+        error: "Step 2 (query data source) failed: " + (data?.message || "unknown reason"),
       });
       return;
     }
